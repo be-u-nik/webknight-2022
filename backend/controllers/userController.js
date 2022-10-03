@@ -197,6 +197,31 @@ const getUser = asyncHandler(async (req, res) => {
   res.status(200).json(user);
 });
 
+//
+const updateUser = asyncHandler(async (req, res) => {
+  const { name, password } = req.body;
+  let updatedUser;
+  if (password) {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    if (name) {
+      updatedUser = await User.findByIdAndUpdate(req.user._id, {
+        password: hashedPassword,
+        name,
+      }).select('-password');
+    } else {
+      updatedUser = await User.findByIdAndUpdate(req.user._id, {
+        password: hashedPassword,
+      }).select('-password');
+    }
+  } else {
+    updatedUser = await User.findByIdAndUpdate(req.user._id, { name }).select(
+      '-password'
+    );
+  }
+  res.status(200).json(updatedUser);
+});
+
 // check otp
 // @path  - PUBLIC  - POST - /api/user/otp/:token
 // @param  - deviceType -> DeviceType of user
@@ -210,18 +235,17 @@ const confirmOtp = asyncHandler(async (req, res) => {
   if (otp == val.slice(-6) && (user = await User.findById(val.slice(0, -6)))) {
     if (!user.devices.includes(deviceType)) {
       user = await User.findByIdAndUpdate(user._id, {
-        $push: { devices: deviceType },
-        $push: { rewards: { fromId: referalFrom, time: new Date.now() } },
+        $push: { devices: deviceType, rewards: { fromId: referalFrom } },
       });
       await User.findByIdAndUpdate(referalFrom, {
-        $push: { rewards: { fromId: user._id, time: new Date.now() } },
+        $push: { rewards: { fromId: user._id } },
       });
     }
     res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      token: req.params.token,
+      token: generateToken(user._id),
     });
   } else {
     res.status(401);
@@ -252,4 +276,5 @@ module.exports = {
   getMe,
   getUser,
   confirmOtp,
+  updateUser,
 };

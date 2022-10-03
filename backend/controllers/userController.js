@@ -5,10 +5,6 @@ const nodemailer = require('nodemailer');
 
 const User = require('../models/userModel');
 
-const removeUser = asyncHandler(async (email) => {
-  await User.deleteOne({ email: email });
-});
-
 // registering/creating user
 // @path  - PUBLIC - POST - /api/users/register
 // @param -name -> Name of user
@@ -151,17 +147,6 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-// getting all users
-// @path  - PUBLIC - GET - /api/users/
-const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find().select(
-    '-password -createdAt -updatedAt -__v'
-  );
-  res.status(200).json({
-    users,
-  });
-});
-
 // get current user
 // @path  - PRIVATE - GET - /api/users/me
 const getMe = asyncHandler(async (req, res) => {
@@ -176,24 +161,6 @@ const getMe = asyncHandler(async (req, res) => {
     name: req.user.name,
     rewards,
     token: req.headers.authorization.split(' ')[1],
-  };
-  res.status(200).json(user);
-});
-
-// get current user
-// @path  - PRIVATE - GET - /api/users/:id
-const getUser = asyncHandler(async (req, res) => {
-  const userExists = await User.findById(req.params.id);
-
-  if (!user) {
-    res.status(404);
-    throw new Error('User not found');
-  }
-
-  const user = {
-    id: userExists._id,
-    email: userExists.email,
-    name: userExists.name,
   };
   res.status(200).json(user);
 });
@@ -283,13 +250,10 @@ const generateTokenOtp = (id) => {
 };
 
 module.exports = {
-  removeUser,
   registerUser,
   checkEmail,
   loginUser,
-  getUsers,
   getMe,
-  getUser,
   confirmOtp,
   updateUser,
 };

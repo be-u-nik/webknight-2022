@@ -66,7 +66,7 @@ export default function Navbar() {
         <MobileNav open={open} setOpen={setOpen} />
         <div className="w-3/12 flex items-center">
           <Link to="/" className="text-2xl font-semibold">
-            Share&Earn
+            Refer&Earn
           </Link>
         </div>
         <div className="w-9/12 flex justify-end items-center">

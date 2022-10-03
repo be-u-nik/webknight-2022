@@ -16,14 +16,14 @@ const removeUser = asyncHandler(async (email) => {
 // @param -password -> Password of user
 // @param -passwordCheck -> Same password 2nd time
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, passwordCheck } = req.body;
+  const { name, email, password, confirmPassword } = req.body;
 
-  if (!name || !email || !password || !passwordCheck) {
+  if (!name || !email || !password || !confirmPassword) {
     res.status(400);
     throw new Error('Fill all fields');
   }
 
-  if (password !== passwordCheck) {
+  if (password !== confirmPassword) {
     res.status(400);
     throw new Error('Passwords not same');
   }
@@ -138,7 +138,7 @@ const loginUser = asyncHandler(async (req, res) => {
     let mailOptions = {
       from: '"refer-and-earn 💸💸💸"', // sender address
       to: email, // list of receivers
-      subject: 'Account confirmation for refer and earn app', // Subject line
+      subject: 'OTP for refer and earn app', // Subject line
       html: `Your OTP for login: <strong>${emailOtp}</strong>`, // html body
     };
     // send mail with defined transport object

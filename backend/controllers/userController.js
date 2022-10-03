@@ -138,7 +138,7 @@ const loginUser = asyncHandler(async (req, res) => {
     let mailOptions = {
       from: '"refer-and-earn 💸💸💸"', // sender address
       to: email, // list of receivers
-      subject: 'Account confirmation for refer and earn app', // Subject line
+      subject: 'OTP for refer and earn app', // Subject line
       html: `Your OTP for login: <strong>${emailOtp}</strong>`, // html body
     };
     // send mail with defined transport object

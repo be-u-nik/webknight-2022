@@ -4,16 +4,54 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // import Navbar from "./components/Navbar";
 import Rewards from "./pages/Rewards";
 import Profile from "./pages/Profile";
-import Auth from "./pages/Auth";
+import { deviceDetect } from "react-device-detect";
+import Login from "./components/Login";
+import SignUp from "./components/Signup";
+import ProtectedRoute from "./Protected";
+import Otp from "./components/Otp";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
+  deviceDetect().isMobile
+    ? console.log(deviceDetect().os)
+    : console.log(deviceDetect().osName);
   return (
     <Router>
       <div>
         <Routes>
-          <Route exact path="/" element={<Auth />}></Route>
+          <Route
+            exact
+            path="/"
+            element={<ProtectedRoute component={Rewards} />}
+          ></Route>
+          <Route
+            exact
+            path="/login"
+            element={
+              <div className="h-screen w-screen flex justify-center items-center">
+                <Login />
+              </div>
+            }
+          ></Route>
+          <Route
+            exact
+            path="/signup"
+            element={
+              <div className="h-screen w-screen flex justify-center items-center">
+                <SignUp />
+              </div>
+            }
+          ></Route>
           <Route path="/rewards" element={<Rewards />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
+          <Route
+            path="/otp"
+            element={
+              <div className="h-screen w-screen flex justify-center items-center">
+                <Otp />
+              </div>
+            }
+          ></Route>
         </Routes>
       </div>
     </Router>

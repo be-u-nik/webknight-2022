@@ -45,11 +45,12 @@ function MobileNav({ open, setOpen }) {
         <Link
           to="/"
           className="text-base lg:text-lg  font-normal my-4"
-          onClick={() =>
+          onClick={() => {
+            localStorage.removeItem("user");
             setTimeout(() => {
               setOpen(!open);
-            }, 100)
-          }
+            }, 100);
+          }}
         >
           Logout
         </Link>
@@ -97,7 +98,15 @@ export default function Navbar() {
           <div className="hidden md:flex">
             <NavLink to="/rewards">Rewards</NavLink>
             <NavLink to="/profile">Profile</NavLink>
-            <NavLink to="/">Logout</NavLink>
+            <NavLink to="/">
+              <div
+                onClick={() => {
+                  localStorage.removeItem("user");
+                }}
+              >
+                Logout
+              </div>
+            </NavLink>
           </div>
         </div>
       </div>

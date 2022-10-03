@@ -2,43 +2,36 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
 
 function SignUp() {
   const navigate = useNavigate();
 
   const formData = {};
-  const [password, setpassword] = useState("");
   async function handleOnSubmit(e) {
     e.preventDefault();
     Array.from(e.currentTarget.elements).forEach((field) => {
-      console.log(field.name);
+      // console.log(field.name);
       if (!field.value && field.name) {
         if (field.name === "confirmPassword")
           toast.error("Please fill confirm password");
         else toast.error("Please Fill " + field.name);
         return;
-      } else if (field.name) {
-        if (field.name === "password") setpassword(field.value);
-        if (field.name === "confirmPassword" && field.value !== password)
-          toast.error("passwords do not match");
-        else formData[field.name] = field.value;
-      }
+      } else if (field.name) formData[field.name] = field.value;
     });
-    console.log(formData);
-
-    // const resolveAfter3Sec = new Promise((resolve, reject) => {
-    //   setTimeout(resolve, 3000);
-    // });
-    // await toast.promise(resolveAfter3Sec, {
-    //   pending: "Validating",
-    //   success: "Logging in",
-    //   error: "Invalid Credentials",
-    // });
-    // navigate("/otp");
-    // await fetch("/", {
-    //   method: "post",
-    //   body: JSON.stringify(formData),
-    // });
+    // console.log(JSON.stringify(formData));
+    await axios
+      .post("http://localhost:8000/api/users/register/", formData)
+      .then((res) => {
+        toast.success("Account created successfully");
+        toast.info("Verify your email");
+        setTimeout(() => {
+          navigate("/login");
+        }, 5500);
+      })
+      .catch((e) => {
+        toast.error(e.response.data.message);
+      });
   }
   return (
     <div className="shadow rounded-sm px-12 py-8 sm:w-[600px] md:w-[600px] flex flex-col">

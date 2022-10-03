@@ -1,9 +1,33 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 
 function Rewards() {
-  const url = "https://tinyurl.com/3wcyvb7x";
   const [copied, setcopied] = useState(false);
+  const [user, setuser] = useState(JSON.parse(localStorage.getItem("user")));
+  useEffect(() => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+    async function getUser() {
+      await axios
+        .get("http://localhost:8000/api/users/me", config)
+        .then((res) => {
+          localStorage.setItem("user", JSON.stringify(res.data));
+          setuser(res.data);
+        });
+    }
+    getUser();
+
+    return () => {};
+  }, []);
+  // const user = localStorage.getItem("user");
+  // const url = "https://tinyurl.com/3wcyvb7x";
+  const url = "http://localhost:3000/referal/" + user.id;
+  // console.log(typeof user.rewards);
+  // console.log(user.rewards);
   return (
     <div>
       <Navbar />
@@ -40,30 +64,47 @@ function Rewards() {
         <h1 className="my-5 md:my-12 text-2xl">Your Rewards</h1>
         <div>
           <ul className="flex flex-col">
-            <li>
-              <div className="flex justify-around rounded-sm bg-grey-400 px-[12px] py-0 md:px-5  md:py-2">
-                <p>Recieved from User2</p>
-                <span>12:21 PM, 2 October 2022</span>
-              </div>
-            </li>
-            <li>
-              <div className="flex justify-around rounded-sm bg-grey-400 px-[12px] py-0 md:px-5  md:py-2">
-                <p>Recieved from User2</p>
-                <span>12:21 PM, 2 October 2022</span>
-              </div>
-            </li>
-            <li>
-              <div className="flex justify-around rounded-sm bg-grey-400 px-[12px] py-0 md:px-5  md:py-2">
-                <p>Recieved from User2</p>
-                <span>12:21 PM, 2 October 2022</span>
-              </div>
-            </li>
-            <li>
-              <div className="flex justify-around rounded-sm bg-grey-400 px-[12px] py-0 md:px-5  md:py-2">
-                <p>Recieved from User2</p>
-                <span>12:21 PM, 2 October 2022</span>
-              </div>
-            </li>
+            {user.rewards ? (
+              user.rewards.map((reward, index) => {
+                const date = new Date(reward.time);
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                const dt = date.getDate();
+                const hr = date.getHours();
+                const min = date.getMinutes();
+                const months = [
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                  "July",
+                  "August",
+                  "September",
+                  "October",
+                  "November",
+                  "December",
+                ];
+                return (
+                  <li key={index}>
+                    <div className="flex justify-around rounded-sm bg-grey-400 px-[12px] py-0 md:px-5  md:py-2">
+                      <p>Recieved from {reward.name}</p>
+                      <span>
+                        {hr > 12 ? hr - 12 : hr}:{min > 9 ? min : `0` + min}{" "}
+                        {hr > 12 ? `PM` : `AM`} - {dt} {months[month]}, {year}
+                      </span>
+                    </div>
+                  </li>
+                );
+              })
+            ) : (
+              <li>
+                <div className="flex justify-around rounded-sm bg-grey-400 px-[12px] py-0 md:px-5  md:py-2">
+                  <p>No rewards recieved yet</p>
+                </div>
+              </li>
+            )}
           </ul>
         </div>
         <div></div>

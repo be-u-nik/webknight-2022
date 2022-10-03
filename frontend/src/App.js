@@ -10,6 +10,7 @@ import SignUp from "./components/Signup";
 import ProtectedRoute from "./Protected";
 import Otp from "./components/Otp";
 import "react-toastify/dist/ReactToastify.css";
+import Verifyemail from "./components/Verifyemail";
 
 function App() {
   deviceDetect().isMobile
@@ -53,8 +54,16 @@ function App() {
             }
           ></Route>
           <Route
-            path="/:id"
+            path="/referal/:id"
             element={<ProtectedRoute component={Rewards} />}
+          ></Route>
+          <Route
+            path="/confirmation/:id"
+            element={
+              <div className="h-screen w-screen flex justify-center items-center">
+                <Verifyemail />
+              </div>
+            }
           ></Route>
         </Routes>
       </div>

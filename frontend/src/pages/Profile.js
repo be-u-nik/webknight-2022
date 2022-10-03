@@ -1,49 +1,57 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import placeholder from "../assets/profile-placeholder.png";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
+  const navigate = useNavigate();
   const [editable, seteditable] = useState(false);
-  const [username, setusername] = useState("zero");
-  const email = "zero@zero.com";
-  // const [password, setpassword] = useState("");
+  const [user, setuser] = useState(JSON.parse(localStorage.getItem("user")));
+  const config = {
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+  };
+  useEffect(() => {
+    async function getUser() {
+      await axios
+        .get("http://localhost:8000/api/users/me", config)
+        .then((res) => {
+          localStorage.setItem("user", JSON.stringify(res.data));
+          setuser(res.data);
+        });
+    }
+    getUser();
+
+    return () => {};
+  }, [user]);
   const formData = {};
   async function handleOnSubmit(e) {
     e.preventDefault();
     Array.from(e.currentTarget.elements).forEach((field) => {
-      console.log(field.name + "---" + field.value);
       if (!field.value && field.name) {
-        if (field.name === "name") formData[field.name] = username;
-      } else if (field.name) formData[field.name] = field.value;
-      // else if (field.name) {
-      //   if (field.name === "password") {
-      //     setpassword(field.value);
-      //     console.log(password);
-      //     formData[field.name] = field.value;
-      //   } else if (
-      //     field.name === "confirmPassword" &&
-      //     field.value !== password
-      //   ) {
-      //     toast.error("passwords do not match");
-      //   } else formData[field.name] = field.value;
-      // }
-    });
-    console.log(formData);
+        if (field.name === "name") formData[field.name] = user.name;
+      } else if (field.name !== "email" && field.name !== "")
+        formData[field.name] = field.value;
 
-    // const resolveAfter3Sec = new Promise((resolve, reject) => {
-    //   setTimeout(resolve, 3000);
-    // });
-    // await toast.promise(resolveAfter3Sec, {
-    //   pending: "Validating",
-    //   success: "Logging in",
-    //   error: "Invalid Credentials",
-    // });
-    // navigate("/otp");
-    // await fetch("/", {
-    //   method: "post",
-    //   body: JSON.stringify(formData),
-    // });
+      if (field.name !== "email") field.value = "";
+    });
+
+    await axios
+      .post("http://localhost:8000/api/users/me", formData, config)
+      .then((res) => {
+        localStorage.setItem("user", JSON.stringify(res.data));
+        toast.success("Successfully updated");
+        setTimeout(() => {
+          navigate("/profile");
+        }, 6000);
+      })
+      .catch((err) => {
+        console.log("error in profile => ", err);
+        toast.error(err.response.data.message);
+      });
   }
   return (
     <div>
@@ -80,7 +88,7 @@ function Profile() {
                 <input
                   type="text"
                   name="name"
-                  placeholder={username}
+                  placeholder={user.name}
                   disabled
                   className="px-[12px] py-0 md:px-5 text-ellipsis md:py-2"
                 />
@@ -91,7 +99,7 @@ function Profile() {
               <input
                 type="text"
                 name="email"
-                value={email}
+                value={user.email}
                 disabled
                 className="px-[12px] py-0 md:px-5 text-ellipsis md:py-2"
               />

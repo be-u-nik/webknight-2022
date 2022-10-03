@@ -4,9 +4,9 @@ import { Navigate, useParams } from "react-router-dom";
 function ProtectedRoute({ component: Component, ...restProps }) {
   // const routes = useRoutes();
   const { id } = useParams();
-  localStorage.setItem("referalFrom", id);
-  const isloggedin = false;
-  if (isloggedin) {
+  localStorage.setItem("referalFrom", id ? id : "");
+
+  if (localStorage.getItem("user")) {
     return <Component {...restProps} />;
   }
   return <Navigate to="/login" />;

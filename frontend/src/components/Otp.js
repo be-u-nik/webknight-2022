@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { deviceDetect } from "react-device-detect";
+import axios from "axios";
 
 function Otp() {
   const navigate = useNavigate();
@@ -8,27 +10,41 @@ function Otp() {
   async function handleOnSubmit(e) {
     e.preventDefault();
     Array.from(e.currentTarget.elements).forEach((field) => {
-      console.log(field.name);
       if (!field.value && field.name) {
         toast.error("Invalid " + field.name);
         return;
       } else if (field.name) formData[field.name] = field.value;
     });
-    console.log(formData);
-
-    // const resolveAfter3Sec = new Promise((resolve, reject) => {
-    //   setTimeout(resolve, 3000);
-    // });
-    // await toast.promise(resolveAfter3Sec, {
-    //   pending: "Validating",
-    //   success: "Logging in",
-    //   error: "Invalid Credentials",
-    // });
-    // navigate("/otp");
-    // await fetch("/", {
-    //   method: "post",
-    //   body: JSON.stringify(formData),
-    // });
+    const deviceType = deviceDetect().isMobile
+      ? deviceDetect().os
+      : deviceDetect().osName;
+    formData["deviceType"] = deviceType;
+    formData["referalFrom"] = localStorage.getItem("referalFrom")
+      ? localStorage.getItem("referalFrom")
+      : "";
+    // const config = {
+    //   header : {
+    //     Authorization : `Bearer ${token}`
+    //   }
+    // }
+    await axios
+      .post(
+        `http://localhost:8000/api/users/otp/${localStorage.getItem(
+          "otpToken"
+        )}`,
+        formData
+      )
+      .then((res) => {
+        localStorage.setItem("otpToken", res.data.token);
+        toast.success("Logged in successfully");
+        localStorage.setItem("user", JSON.stringify(res.data));
+        setTimeout(() => {
+          navigate("/rewards");
+        }, 6000);
+      })
+      .catch((e) => {
+        toast.error(e.response.data.message);
+      });
   }
   return (
     <div className="shadow rounded-sm px-12 py-8 sm:w-[600px] md:w-[600px] flex flex-col mx-4">

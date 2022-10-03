@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+import placeholder from "../assets/profile-placeholder.png";
 
 function Profile() {
   const [editable, seteditable] = useState(false);
@@ -14,7 +15,7 @@ function Profile() {
             <div className="rounded-full h-[124px] w-[124px] md:h-[256px] md:w-[256px] md:mb-5">
               <img
                 className="shadow rounded-full"
-                src="/profile-placeholder.png"
+                src={placeholder}
                 alt="profile"
                 height={448}
                 width={448}

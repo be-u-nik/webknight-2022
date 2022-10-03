@@ -20,12 +20,12 @@ const userSchema = mongoose.Schema(
       default: false,
     },
     devices: {
-      type: 'array',
+      type: [String],
     },
     rewards: [
       {
         fromId: mongoose.Schema.Types.ObjectId,
-        time: Date,
+        time: { type: Date, default: Date.now },
       },
     ],
   },

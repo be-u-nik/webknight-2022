@@ -7,6 +7,7 @@ const {
   getUsers,
   getMe,
   getUser,
+  updateUser,
   confirmOtp,
 } = require('../controllers/userController');
 const { protect } = require('../middleware/authMiddleware');
@@ -16,6 +17,7 @@ router.get('/confirmation/:token', checkEmail);
 router.post('/login', loginUser);
 router.get('/', getUsers);
 router.get('/me', protect, getMe);
+router.post('/me', protect, updateUser);
 router.get('/:id', getUser);
 router.get('/otp/:token', confirmOtp);
 

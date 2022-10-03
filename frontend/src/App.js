@@ -52,6 +52,10 @@ function App() {
               </div>
             }
           ></Route>
+          <Route
+            path="/:id"
+            element={<ProtectedRoute component={Rewards} />}
+          ></Route>
         </Routes>
       </div>
     </Router>

@@ -1,4 +1,4 @@
-const ServerPort = 8000;
+const ServerPort = process.env.PORT || 8000;
 const dotenv = require('dotenv').config();
 const colors = require('colors');
 const connectDB = require('./config/db');

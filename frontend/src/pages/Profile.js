@@ -9,12 +9,13 @@ function Profile() {
   const navigate = useNavigate();
   const [editable, seteditable] = useState(false);
   const [user, setuser] = useState(JSON.parse(localStorage.getItem("user")));
-  const config = {
-    headers: {
-      Authorization: `Bearer ${user.token}`,
-    },
-  };
+
   useEffect(() => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
     async function getUser() {
       await axios
         .get("http://localhost:8000/api/users/me", config)
@@ -38,7 +39,11 @@ function Profile() {
 
       if (field.name !== "email") field.value = "";
     });
-
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
     await axios
       .post("http://localhost:8000/api/users/me", formData, config)
       .then((res) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,7 +11,6 @@ function SignUp() {
   async function handleOnSubmit(e) {
     e.preventDefault();
     Array.from(e.currentTarget.elements).forEach((field) => {
-      // console.log(field.name);
       if (!field.value && field.name) {
         if (field.name === "confirmPassword")
           toast.error("Please fill confirm password");

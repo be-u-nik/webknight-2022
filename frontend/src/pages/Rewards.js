@@ -22,7 +22,7 @@ function Rewards() {
     getUser();
 
     return () => {};
-  }, []);
+  }, [user.token]);
   // const user = localStorage.getItem("user");
   // const url = "https://tinyurl.com/3wcyvb7x";
   const url = "http://localhost:3000/referal/" + user.id;

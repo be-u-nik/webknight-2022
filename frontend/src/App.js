@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Verifyemail from "./components/Verifyemail";
 
 function App() {
+  // console.log(process.env.REACT_APP_PUBLIC_URL);
   deviceDetect().isMobile
     ? console.log(deviceDetect().os)
     : console.log(deviceDetect().osName);

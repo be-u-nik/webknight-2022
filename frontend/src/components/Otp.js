@@ -29,9 +29,9 @@ function Otp() {
     // }
     await axios
       .post(
-        `${
-          process.env.REACT_APP_BACKEND_URL
-        }/api/users/otp/${localStorage.getItem("otpToken")}`,
+        `https://sharenearnback.herokuapp.com/api/users/otp/${localStorage.getItem(
+          "otpToken"
+        )}`,
         formData
       )
       .then((res) => {

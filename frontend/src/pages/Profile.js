@@ -18,7 +18,7 @@ function Profile() {
     };
     async function getUser() {
       await axios
-        .get(`${process.env.REACT_APP_BACKEND_URL}/api/users/me`, config)
+        .get(`https://sharenearnback.herokuapp.com/api/users/me`, config)
         .then((res) => {
           localStorage.setItem("user", JSON.stringify(res.data));
           setuser(res.data);
@@ -46,7 +46,7 @@ function Profile() {
     };
     await axios
       .post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/users/me`,
+        `https://sharenearnback.herokuapp.com/api/users/me`,
         formData,
         config
       )

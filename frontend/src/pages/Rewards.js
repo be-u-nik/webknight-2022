@@ -37,7 +37,7 @@ function Rewards() {
             Total rewards
           </div>
           <div className="w-[100px] h-[100px] rounded-full shadow flex items-center justify-center text-3xl m-2">
-            {user.rewards.length}
+            {user?.rewards?.length}
             <span className="text-sm">sne</span>
           </div>
         </div>

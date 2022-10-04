@@ -8,7 +8,7 @@ function Login() {
   const navigate = useNavigate();
 
   const formData = {};
-
+  // console.log(process.env.REACT_APP_BACKEND_URL);
   async function handleOnSubmit(e) {
     e.preventDefault();
     Array.from(e.currentTarget.elements).forEach((field) => {
@@ -18,7 +18,7 @@ function Login() {
       } else if (field.name) formData[field.name] = field.value;
     });
     await axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/api/users/login/`, formData)
+      .post(`https://sharenearnback.herokuapp.com/api/users/login/`, formData)
       .then((res) => {
         localStorage.setItem("otpToken", res.data.token);
         toast.info("OTP sent to your registered email");

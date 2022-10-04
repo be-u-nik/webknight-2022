@@ -13,7 +13,7 @@ function Rewards() {
     };
     async function getUser() {
       await axios
-        .get(`${process.env.REACT_APP_BACKEND_URL}/api/users/me`, config)
+        .get(`https://sharenearnback.herokuapp.com/api/users/me`, config)
         .then((res) => {
           localStorage.setItem("user", JSON.stringify(res.data));
           setuser(res.data);
@@ -25,13 +25,22 @@ function Rewards() {
   }, [user.token]);
   // const user = localStorage.getItem("user");
   // const url = "https://tinyurl.com/3wcyvb7x";
-  const url = "http://localhost:3000/referal/" + user.id;
+  const url = "https://refernearn2022.netlify.app/referal/" + user.id;
   // console.log(typeof user.rewards);
   // console.log(user.rewards);
   return (
     <div>
       <Navbar />
-      <section className="pt-24 text-center mx-5 md:mx-auto">
+      <section className="pt-24 text-center mx-5 md:mx-auto mb-20">
+        <div className="flex flex-col justify-center items-center mb-6">
+          <div className="text-center px-[12px] py-0 md:px-5  md:py-2">
+            Total rewards
+          </div>
+          <div className="w-[100px] h-[100px] rounded-full shadow flex items-center justify-center text-3xl m-2">
+            {user?.rewards?.length}
+            <span className="text-sm">sne</span>
+          </div>
+        </div>
         <div className="flex flex-col md:flex-row justify-center">
           <div className="text-center px-[12px] py-0 md:px-5  md:py-2">
             Share this URL to earn rewards:{" "}

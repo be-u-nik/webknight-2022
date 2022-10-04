@@ -8,7 +8,7 @@ function Login() {
   const navigate = useNavigate();
 
   const formData = {};
-
+  console.log(process.env.REACT_APP_BACKEND_URL);
   async function handleOnSubmit(e) {
     e.preventDefault();
     Array.from(e.currentTarget.elements).forEach((field) => {

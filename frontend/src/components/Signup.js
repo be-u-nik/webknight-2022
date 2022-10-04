@@ -21,7 +21,7 @@ function SignUp() {
     // console.log(JSON.stringify(formData));
     await axios
       .post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/users/register/`,
+        process.env.REACT_APP_BACKEND_URL + "/api/users/register/",
         formData
       )
       .then((res) => {

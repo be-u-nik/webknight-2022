@@ -18,7 +18,7 @@ function Login() {
       } else if (field.name) formData[field.name] = field.value;
     });
     await axios
-      .post("http://localhost:8000/api/users/login/", formData)
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/users/login/`, formData)
       .then((res) => {
         localStorage.setItem("otpToken", res.data.token);
         toast.info("OTP sent to your registered email");

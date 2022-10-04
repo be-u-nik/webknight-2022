@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // import Navbar from "./components/Navbar";
 import Rewards from "./pages/Rewards";
 import Profile from "./pages/Profile";
-import { deviceDetect } from "react-device-detect";
 import Login from "./components/Login";
 import SignUp from "./components/Signup";
 import ProtectedRoute from "./Protected";
@@ -14,9 +13,6 @@ import Verifyemail from "./components/Verifyemail";
 
 function App() {
   // console.log(process.env.REACT_APP_PUBLIC_URL);
-  deviceDetect().isMobile
-    ? console.log(deviceDetect().os)
-    : console.log(deviceDetect().osName);
   return (
     <Router>
       <div>

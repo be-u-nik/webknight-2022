@@ -54,7 +54,6 @@ function Profile() {
         }, 6000);
       })
       .catch((err) => {
-        console.log("error in profile => ", err);
         toast.error(err.response.data.message);
       });
   }

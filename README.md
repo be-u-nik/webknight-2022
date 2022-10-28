@@ -21,7 +21,7 @@ npm install
 
 ### Run
 
-You have to run 2 servers, but we have a single command to do both.
+You have to run 2 servers, but we can run both with a single command.
 
 ```
 cd backend

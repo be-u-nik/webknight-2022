@@ -8,7 +8,7 @@ Points are recieved for both the user and the person who referred to them when t
 
 ### Install Dependencies
 
-You must go to frontend,backend folders for downloading all the nodemodules
+You must go to frontend and backend folders for downloading all the nodemodules
 ```
 cd frontend
 npm install

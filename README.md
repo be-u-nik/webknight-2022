@@ -5,7 +5,6 @@ Points are recieved for both the user and the person who referred to them when t
 [_Link to preview_](https://refernearn2022.netlify.app/)
 
 ## Usage
-
 ### Install Dependencies
 
 You must go to frontend,backend folders for downloading all the nodemodules

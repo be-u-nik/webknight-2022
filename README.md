@@ -9,8 +9,6 @@ Points are recieved for both the user and the person who referred to them when t
 ### Install Dependencies
 
 You must go to frontend,backend folders for downloading all the nodemodules
-
-
 ```
 cd frontend
 npm install
@@ -21,7 +19,6 @@ npm install
 ### Run
 
 You have to run 2 servers, but we can run both with a single command.
-
 ```
 cd backend
 npm run dev

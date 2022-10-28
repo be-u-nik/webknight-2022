@@ -1,7 +1,5 @@
 # Refer and earn web application
-
 A MERN app where you will recieve points for referal to other users.
-
 Points are recieved for both the user and the person who referred to them when the user is logged/signed up in a new device.
 
 [_Link to preview_](https://refernearn2022.netlify.app/)
